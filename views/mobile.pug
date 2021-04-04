@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  - var result=[{company:"apple",model:"x80",prize:1700},{company:"google",model:"Z10",prize:1100},{company:"samsang",model:"Iw0",prize:1020}] 
+  div(class="container-fluid")
+   div(class="row")
+    - var i=0
+    each form in result
+     
+     div(class="col-sm-2",,onclick=`buy(${i})`) company: #{form.company} - model: #{form.model} - prize: #{form.prize}
+     -i=i+1
+  script.
+   function buy(a){
+    alert(`purchased item ${a+1}`)        
+   }

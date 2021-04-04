@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to webpage and title is  #{title}
+  br
+  button(type='button',class='btn btn-outline-success',onclick="update()") Press me
+  br
+  div(id="target") Display 
+  br
+  script.
+    var client_count=0;
+    function update(){
+      client_count+=1;
+      
+      document.getElementById("target").innerHTML="Value now "+client_count  ;
+    }
+    
+  a(href="mobile") link to mobile page
+
+  script.
+   
