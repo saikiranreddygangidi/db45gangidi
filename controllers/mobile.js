@@ -1,3 +1,4 @@
+const { ObjectId } = require("bson");
 var Mobile = require("../models/mobile");
 // List of all mobiles
 exports.mobile_list = async function (req, res) {
@@ -12,16 +13,16 @@ exports.mobile_list = async function (req, res) {
   }
 };
 // for a specific mobile.
-exports.mobile_detail = function (req, res) {
-  Mobile.find({ mobilecompany: req.params.name })
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.status(500);
+exports.mobile_detail = async function (req, res) {
+  console.log("detail" + req.params.id);
 
-      res.send(`{"error": ${err}}`);
-    });
+  try {
+    result = await Mobile.findById(req.params.id);
+    res.send(result);
+  } catch (error) {
+    res.status(500);
+    res.send(`{"error": document for id ${error} not found`);
+  }
 };
 // Handle mobile create on POST.
 exports.mobile_create_post = async function (req, res) {
@@ -43,27 +44,33 @@ exports.mobile_create_post = async function (req, res) {
 };
 // Handle mobile delete form on DELETE.
 exports.mobile_delete = async function (req, res) {
+  console.log("delete " + req.params.id);
   try {
-    await Mobile.deleteMany({ name: req.params.name });
-    res.send("data is deleted with company name " + req.params.name);
+    result = await Mobile.findByIdAndDelete(req.params.id);
+    console.log("Removed " + result);
+    res.send(result);
   } catch (err) {
     res.status(500);
-
-    res.send(`{"error": ${err}}`);
+    res.send(`{"error": Error deleting ${err}}`);
   }
 };
 // Handle mobile update form on PUT.
 exports.mobile_update_put = async function (req, res) {
+  console.log(
+    `update on id ${req.params.id} with body ${JSON.stringify(req.body)}`
+  );
   try {
-    await Mobile.updateMany(
-      { name: "apple" },
-      { $set: { model: req.params.model } }
-    );
-    res.send("mobile update PUT" + req.params.id);
+    let toUpdate = await Mobile.findById(req.params.id);
+    // Do updates of properties
+    if (req.body.companyname) toUpdate.companyname = req.body.companyname;
+    if (req.body.model) toUpdate.model = req.body.model;
+    if (req.body.prize) toUpdate.prize = req.body.prize;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result);
+    res.send(result);
   } catch (err) {
     res.status(500);
-
-    res.send(`{"error": ${err}}`);
+    res.send(`{"error": ${err}: Update for id ${req.params.id} failed`);
   }
 };
 exports.mobile_view_all_Page = async function (req, res) {
