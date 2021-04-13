@@ -18,6 +18,7 @@ mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 var db = mongoose.connection;
 //Bind connection to error event
 db.on("error", console.error.bind(console, "MongoDB connection error:"));

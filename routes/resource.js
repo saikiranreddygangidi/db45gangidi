@@ -9,6 +9,7 @@ router.get("/", api_controller.api);
 /// mobile ROUTES ///
 // POST request for creating a mobile.
 router.post("/mobile", mobile_controller.mobile_create_post);
+
 // DELETE request to delete mobile.
 router.delete("/mobile/:id", mobile_controller.mobile_delete);
 // PUT request to update mobile.

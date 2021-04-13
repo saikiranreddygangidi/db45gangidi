@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to update
+  else
+    - let mobileid = toShow._id
+    - let mobilecompany = toShow.mobilecompany
+    - let model = toShow.model
+    - let prize = toShow.prize
+    
+    div.row(class='mb-2')
+      div.mr-1 ID is
+      div #{mobileid}
+    - let actionid = "/resource/mobile/" + mobileid
+    form(id='mobileForm', action= actionid, method="PUT")
+      div.form-group
+          label.mobileAttr(for='mobilecompany') mobile type
+          input#mobilecompany(type='text', name='mobilecompany', value= mobilecompany )
+      div.form-group
+          label.mobileAttr(for='prize') mobile prize
+          input#prize(type='text', name='prize', value= prize )
+      div.form-group
+          label.mobileAttr(for='model') mobile model
+          input#model(type='text', name='model', value=model )
+      input(type="submit")
+
+  script.
+    document.forms['mobileForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });

@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1(class="title")= title
+  if (toShow == null)
+    h2 No instance to display
+  else
+    - let mobileid = toShow._id
+    - let mobilecompany = toShow.mobilecompany
+    - let model = toShow.model
+    - let prize = toShow.prize
+    div
+      div.row
+        div(class='mobileAttr mr-3') mobileID is:
+         div(class='data') #{mobileid }
+        <br>
+      div.row
+        div(class='mobileAttr mr-3') mobile company is :
+         div(class='data') #{mobilecompany}
+      div.row
+        div(class='mobileAttr mr-3') mobile prize is:
+         div(class='data') #{prize}
+      div.row
+        div(class='mobileAttr mr-3') mobile model is:
+         div(class='data') #{model}

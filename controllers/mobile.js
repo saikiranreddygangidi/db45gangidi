@@ -31,7 +31,7 @@ exports.mobile_create_post = async function (req, res) {
   // We are looking for a body, since POST does not have query parameters.
   // Even though bodies can be in many different formats, we will be picky
   // and require that it be a json object
-  // {"costumetype":"goat", "cost":12, "size":"large"}
+  // {"mobiletype":"goat", "cost":12, "size":"large"}
   document.mobilecompany = req.body.mobilecompany;
   document.model = req.body.model;
   document.prize = req.body.prize;
@@ -82,5 +82,48 @@ exports.mobile_view_all_Page = async function (req, res) {
     });
   } catch (err) {
     res.error(500, `{"error": ${err}}`);
+  }
+};
+
+exports.mobile_view_one_Page = async function (req, res) {
+  console.log("single view for id " + req.query.id);
+  try {
+    result = await Mobile.findById(req.query.id);
+    res.render("mobiledetail", { title: "mobile Detail", toShow: result });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
+  }
+};
+
+exports.mobile_create_Page = function (req, res) {
+  console.log("create view");
+  try {
+    res.render("mobilecreate", { title: "mobile Create" });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
+  }
+};
+
+exports.mobile_update_Page = async function (req, res) {
+  console.log("update view for item " + req.query.id);
+  try {
+    let result = await Mobile.findById(req.query.id);
+    res.render("mobileupdate", { title: "mobile Update", toShow: result });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
+  }
+};
+
+exports.mobile_delete_Page = async function (req, res) {
+  console.log("Delete view for id " + req.query.id);
+  try {
+    result = await Mobile.findById(req.query.id);
+    res.render("mobiledelete", { title: "mobile Delete", toShow: result });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
   }
 };
