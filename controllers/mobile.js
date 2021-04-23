@@ -39,7 +39,7 @@ exports.mobile_create_post = async function (req, res) {
     let result = await document.save();
     res.send(result);
   } catch (err) {
-    res.error(500, `{"error": ${err}}`);
+    res.status(500).send(err);
   }
 };
 // Handle mobile delete form on DELETE.
@@ -92,7 +92,7 @@ exports.mobile_view_one_Page = async function (req, res) {
     res.render("mobiledetail", { title: "mobile Detail", toShow: result });
   } catch (err) {
     res.status(500);
-    res.send(`{'error': '${err}'}`);
+    res.send("something indicating an error");
   }
 };
 

@@ -25,10 +25,11 @@ block content
       }).then((resp) => {
         return resp.json(); // or resp.text() or whatever the server sends
       }).then((body) => {
-        alert("Save succeded")
+        alert("save failed"+JSON.stringify(body.errors));
+        
         // TODO handle body
       }).catch((error) => {
         // TODO handle error
-        alert("Save failed " + error )
+        alert("Save failed " + JSON.stringify(error) );
       });
     });
